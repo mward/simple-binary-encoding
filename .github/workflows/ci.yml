@@ -236,7 +236,8 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: clippy
-      - run: cd ./rust
+      - run: |
+          cd ./rust
       - uses: actions-rs/cargo@v1
         with:
           command: build
