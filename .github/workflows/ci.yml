@@ -237,14 +237,4 @@ jobs:
           override: true
           components: clippy
       - run: |
-          cd ./rust
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+          cd ./rust && cargo test
