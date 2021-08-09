@@ -4,7 +4,7 @@ on:
     branches:
       - master
   pull_request:
-    types: [opened, synchronize]
+    types: [ opened, synchronize ]
     branches:
       - master
 
@@ -206,3 +206,43 @@ jobs:
           echo "cmake-$Env:CMAKE_VERSION-win64-x64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
       - name: Build
         run: cppbuild/cppbuild.cmd
+
+  rust-build:
+    name: Rust ${{ matrix.rust }}
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        rust: [ stable, nightly ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Gradle wrappers
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Rust setup
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: clippy
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
