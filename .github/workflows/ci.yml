@@ -230,13 +230,13 @@ jobs:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
       - name: Rust setup
-        working-directory: ./rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
           components: clippy
+      - run: cd ./rust
       - uses: actions-rs/cargo@v1
         with:
           command: build
