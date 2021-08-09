@@ -236,5 +236,4 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: clippy
-      - run: |
-          cd ./rust && cargo test
+      - run: ./gradlew runRustTests
