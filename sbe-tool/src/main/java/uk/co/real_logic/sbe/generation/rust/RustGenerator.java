@@ -477,15 +477,39 @@ public class RustGenerator implements CodeGenerator
         indent(sb, level, "/// - encodedOffset: %d\n", typeToken.offset());
         indent(sb, level, "/// - encodedLength: %d\n", typeToken.encodedLength());
         indent(sb, level, "/// - version: %d\n", typeToken.version());
-        indent(sb, level, "#[inline]\n");
-        indent(sb, level, "pub fn %s_at_most_%d_items_from_slice(&mut self, value: &[%s]) {\n",
-            formatFunctionName(name), arrayLength, rustPrimitiveType);
+        indent(sb, level, "pub fn %s_from_slice(&mut self, value: &[%s]) {\n",
+            formatFunctionName(name), rustPrimitiveType);
 
         // NB: must create variable 'offset' before calling mutable self.get_buf_mut()
         indent(sb, level + 1, "let offset = self.%s;\n", getBufOffset(typeToken));
         indent(sb, level + 1, "let buf = self.get_buf_mut();\n");
 
-        indent(sb, level + 1, "match value.len() {\n");
+        // buf.put_slice_at(offset, value);
+        //            let remaining = 16 - usize::min(len, 16);
+        //
+        //            for i in len..16 {
+        //                println!("i === {i}");
+        //                buf.put_u8_at(offset + i, 0);
+        //            }
+
+        if (rustPrimitiveType.equals("u8"))
+        {
+            indent(sb, level + 1, "buf.put_slice_at(offset, value);\n\n", primitiveType.size());
+        }
+        else
+        {
+            indent(sb, level + 1, "for (i, item) in value.into_iter().enumerate() {\n");
+            indent(sb, level + 2, "buf.put_%s_at(offset + (i * %d), *item);\n", rustPrimitiveType, primitiveType.size());
+            indent(sb, level + 1, "}\n\n");
+        }
+
+        indent(sb, level + 1, "for i in value.len()..%d {\n", arrayLength);
+        indent(sb, level + 2, "buf.put_%s_at(offset + (i * %d), %s_%1$s);\n", rustPrimitiveType, primitiveType.size(), encoding.applicableNullValue());
+        indent(sb, level + 1, "}\n");
+
+
+
+        /*
         for (int matchedLen = 0; matchedLen <= arrayLength; matchedLen++)
         {
             if (matchedLen == arrayLength)
@@ -557,7 +581,7 @@ public class RustGenerator implements CodeGenerator
             }
             indent(sb, level + 2, "}\n");
         }
-        indent(sb, level + 1, "}\n");
+        indent(sb, level + 1, "}\n");*/
 
         indent(sb, level, "}\n\n");
     }

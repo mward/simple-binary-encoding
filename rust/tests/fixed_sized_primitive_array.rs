@@ -98,42 +98,42 @@ fn test_encode_then_decode_u8_slice() {
     }
 
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_char_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_char_from_slice,
         DemoDecoder::fixed_16_char,
         0
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_ascii_char_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_ascii_char_from_slice,
         DemoDecoder::fixed_16_ascii_char,
         0
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_gb_18030_char_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_gb_18030_char_from_slice,
         DemoDecoder::fixed_16_gb_18030_char,
         0
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_utf_8_char_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_utf_8_char_from_slice,
         DemoDecoder::fixed_16_utf_8_char,
         0
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_u8_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_u8_from_slice,
         DemoDecoder::fixed_16_u8,
         u8::MAX
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_ascii_u8_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_ascii_u8_from_slice,
         DemoDecoder::fixed_16_ascii_u8,
         u8::MAX
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_gb_18030_u8_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_gb_18030_u8_from_slice,
         DemoDecoder::fixed_16_gb_18030_u8,
         u8::MAX
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_utf_8_u8_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_utf_8_u8_from_slice,
         DemoDecoder::fixed_16_utf_8_u8,
         u8::MAX
     );
@@ -306,25 +306,25 @@ fn test_encode_then_decode_non_u8_signed_primitive_slice() {
     }
 
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_i8_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_i8_from_slice,
         DemoDecoder::fixed_16_i8,
         i8,
         i8::MIN
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_i16_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_i16_from_slice,
         DemoDecoder::fixed_16_i16,
         i16,
         i16::MIN
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_i32_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_i32_from_slice,
         DemoDecoder::fixed_16_i32,
         i32,
         i32::MIN
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_i64_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_i64_from_slice,
         DemoDecoder::fixed_16_i64,
         i64,
         i64::MIN
@@ -496,13 +496,13 @@ fn test_encode_then_decode_non_u8_unsigned_primitive_slice() {
     }
 
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_u16_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_u16_from_slice,
         DemoDecoder::fixed_16_u16,
         u16,
         u16::MAX
     );
     run_encode_then_decode_for_array_of_u8_len_16!(
-        DemoEncoder::fixed_16_u32_at_most_16_items_from_slice,
+        DemoEncoder::fixed_16_u32_from_slice,
         DemoDecoder::fixed_16_u32,
         u32,
         u32::MAX
