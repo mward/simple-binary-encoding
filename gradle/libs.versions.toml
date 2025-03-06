@@ -1,6 +1,6 @@
 [versions]
 agrona = "2.1.0"
-checkstyle = "10.21.3"
+checkstyle = "10.21.4"
 commons-codec = "1.15"
 commons-lang3 = "3.8.1"
 gradle = "8.13"
