@@ -53,6 +53,7 @@ public class RustGenerator implements CodeGenerator
     static final String ANONYMOUS_LIFETIME = "'_";
     static final String BUF_LIFETIME = "'a";
 
+    @SuppressWarnings("JavadocVariable")
     enum CodecType
     {
         Decoder
