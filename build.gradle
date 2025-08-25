@@ -355,8 +355,9 @@ project(':sbe-tool') {
                 'sbe.validation.xsd': validationXsdPath,
                 'sbe.generate.precedence.checks': 'true',
                 'sbe.java.precedence.checks.property.name': 'sbe.enable.test.precedence.checks',
+                'sbe.keyword.append.token': 'KeywordSuffix',
                 'sbe.java.generate.dtos': 'true')
-        args = ['src/test/resources/example-extension-schema.xml']
+        args = ['src/test/resources/example-extension-schema.xml', 'src/test/resources/dto-test-schema.xml']
     }
 
     jar {

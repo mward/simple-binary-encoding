@@ -16,13 +16,21 @@
 
 package uk.co.real_logic.sbe.generation.java;
 
-import extension.*;
+import dto_test.KeywordsDto;
+import dto_test.KeywordsEncoder;
+import extension.BooleanType;
+import extension.BoostType;
+import extension.CarDecoder;
+import extension.CarDto;
+import extension.CarEncoder;
+import extension.Model;
 import org.agrona.ExpandableArrayBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class DtoTest
 {
@@ -63,6 +71,31 @@ public class DtoTest
 
         assertThat(outputLength, equalTo(inputLength));
         assertThat(outputBuffer.byteArray(), equalTo(inputBuffer.byteArray()));
+    }
+
+    @Test
+    void dtoWithKeywords()
+    {
+        final KeywordsDto dto = new KeywordsDto();
+        dto.assertKeywordSuffix((short)42);
+        dto.finalKeywordSuffix((short)7);
+        final ExpandableArrayBuffer input = new ExpandableArrayBuffer();
+        final KeywordsEncoder encoder = new KeywordsEncoder();
+        encoder.wrap(input, 0);
+
+        KeywordsDto.encodeWith(encoder, dto);
+
+        final byte[] originalBytes = new byte[encoder.encodedLength()];
+        input.getBytes(0, originalBytes);
+
+        final KeywordsDto otherDto =
+            KeywordsDto.decodeFrom(input, 0, KeywordsEncoder.SCHEMA_VERSION, KeywordsEncoder.BLOCK_LENGTH);
+        KeywordsDto.encodeWith(encoder, otherDto);
+
+        final byte[] otherBytes = new byte[encoder.encodedLength()];
+        input.getBytes(0, otherBytes);
+
+        assertArrayEquals(originalBytes, otherBytes);
     }
 
     private static int encodeCar(final MutableDirectBuffer buffer, final int offset)

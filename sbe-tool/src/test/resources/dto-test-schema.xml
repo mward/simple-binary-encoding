@@ -107,4 +107,61 @@
         <data name="activationCode" id="20" type="varDataEncoding"/>
         <data name="added5" id="25" type="varStringEncoding" sinceVersion="5"/>
     </sbe:message>
+
+    <sbe:message name="Keywords" id="3">
+        <field name="abstract"     id="1"  type="uint8"/>
+        <field name="assert"       id="2"  type="uint8"/>
+        <field name="boolean"      id="3"  type="uint8"/>
+        <field name="break"        id="4"  type="uint8"/>
+        <field name="byte"         id="5"  type="uint8"/>
+        <field name="case"         id="6"  type="uint8"/>
+        <field name="catch"        id="7"  type="uint8"/>
+        <field name="char"         id="8"  type="uint8"/>
+        <field name="class"        id="9"  type="uint8"/>
+        <field name="const"        id="10" type="uint8"/>
+        <field name="continue"     id="11" type="uint8"/>
+        <field name="default"      id="12" type="uint8"/>
+        <field name="do"           id="13" type="uint8"/>
+        <field name="double"       id="14" type="uint8"/>
+        <field name="else"         id="15" type="uint8"/>
+        <field name="enum"         id="16" type="uint8"/>
+        <field name="extends"      id="17" type="uint8"/>
+        <field name="final"        id="18" type="uint8"/>
+        <field name="finally"      id="19" type="uint8"/>
+        <field name="float"        id="20" type="uint8"/>
+        <field name="for"          id="21" type="uint8"/>
+        <field name="goto"         id="22" type="uint8"/>
+        <field name="if"           id="23" type="uint8"/>
+        <field name="implements"   id="24" type="uint8"/>
+        <field name="import"       id="25" type="uint8"/>
+        <field name="instanceof"   id="26" type="uint8"/>
+        <field name="int"          id="27" type="uint8"/>
+        <field name="interface"    id="28" type="uint8"/>
+        <field name="long"         id="29" type="uint8"/>
+        <field name="native"       id="30" type="uint8"/>
+        <field name="new"          id="31" type="uint8"/>
+        <field name="package"      id="32" type="uint8"/>
+        <field name="private"      id="33" type="uint8"/>
+        <field name="protected"    id="34" type="uint8"/>
+        <field name="public"       id="35" type="uint8"/>
+        <field name="return"       id="36" type="uint8"/>
+        <field name="short"        id="37" type="uint8"/>
+        <field name="static"       id="38" type="uint8"/>
+        <field name="strictfp"     id="39" type="uint8"/>
+        <field name="super"        id="40" type="uint8"/>
+        <field name="switch"       id="41" type="uint8"/>
+        <field name="synchronized" id="42" type="uint8"/>
+        <field name="this"         id="43" type="uint8"/>
+        <field name="throw"        id="44" type="uint8"/>
+        <field name="throws"       id="45" type="uint8"/>
+        <field name="transient"    id="46" type="uint8"/>
+        <field name="try"          id="47" type="uint8"/>
+        <field name="void"         id="48" type="uint8"/>
+        <field name="volatile"     id="49" type="uint8"/>
+        <field name="while"        id="50" type="uint8"/>
+        <field name="null"         id="51" type="uint8"/>
+        <field name="true"         id="52" type="uint8"/>
+        <field name="false"        id="53" type="uint8"/>
+        <field name="_"            id="54" type="uint8"/>
+    </sbe:message>
 </sbe:messageSchema>
