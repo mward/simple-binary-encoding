@@ -72,6 +72,7 @@ add_custom_command(
             -Dsbe.generate.precedence.checks="true"
             -Dsbe.precedence.checks.flag.name="SBE_ENABLE_PRECEDENCE_CHECKS_IN_TESTS"
             -Dsbe.cpp.disable.implicit.copying="true"
+            -Dsbe.keyword.append.token="X"
             -Dsbe.cpp.generate.dtos="true"
             -jar ${SBE_JAR}
             ${CODE_GENERATION_SCHEMA}
