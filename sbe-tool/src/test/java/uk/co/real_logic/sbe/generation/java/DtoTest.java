@@ -77,8 +77,11 @@ public class DtoTest
     void dtoWithKeywords()
     {
         final KeywordsDto dto = new KeywordsDto();
-        dto.assertKeywordSuffix((short)42);
-        dto.finalKeywordSuffix((short)7);
+        dto.assert$((byte)42);
+        dto.final$((byte)7);
+        dto.abstract$((byte)-81);
+        dto.false$((byte)0);
+        dto.falsE((byte)1);
         final ExpandableArrayBuffer input = new ExpandableArrayBuffer();
         final KeywordsEncoder encoder = new KeywordsEncoder();
         encoder.wrap(input, 0);
