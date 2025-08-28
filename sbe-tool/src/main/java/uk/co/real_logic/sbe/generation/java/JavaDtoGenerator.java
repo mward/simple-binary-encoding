@@ -1039,7 +1039,7 @@ public class JavaDtoGenerator implements CodeGenerator
 
         if (primitiveType == PrimitiveType.CHAR)
         {
-            sb.append(indent).append("encoder.").append(toLowerFirstChar(propertyName)).append("(")
+            sb.append(indent).append("encoder.").append(formattedPropertyName).append("(")
                 .append("dto.").append(formattedPropertyName).append("());\n");
         }
         else
@@ -1047,10 +1047,15 @@ public class JavaDtoGenerator implements CodeGenerator
             final String javaTypeName = javaTypeName(primitiveType);
             sb.append(indent).append(javaTypeName).append("[] ").append(formattedPropertyName).append(" = ")
                 .append("dto.").append(formattedPropertyName).append("();\n")
-                .append(indent).append("for (int i = 0; i < ").append(formattedPropertyName).append(".length; i++)\n")
+                .append(indent).append("if (null != ").append(formattedPropertyName).append(")\n")
                 .append(indent).append("{\n")
-                .append(indent).append(INDENT).append("encoder.").append(formattedPropertyName).append("(")
+                .append(indent).append(indent).append("for (int i = 0; i < ").append(formattedPropertyName)
+                .append(".length; i++)\n")
+                .append(indent).append(indent).append("{\n")
+                .append(indent).append(indent).append(INDENT).append("encoder.").append(formattedPropertyName)
+                .append("(")
                 .append("i, ").append(formattedPropertyName).append("[i]);\n")
+                .append(indent).append(indent).append("}\n")
                 .append(indent).append("}\n");
         }
     }

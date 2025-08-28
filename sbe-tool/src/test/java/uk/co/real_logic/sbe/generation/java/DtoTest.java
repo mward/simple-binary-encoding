@@ -82,6 +82,8 @@ public class DtoTest
         dto.abstract$((byte)-81);
         dto.false$((byte)0);
         dto.falsE((byte)1);
+        dto.import$("char nine");
+        dto.void$(new int[] {1, 2, 3});
         final ExpandableArrayBuffer input = new ExpandableArrayBuffer();
         final KeywordsEncoder encoder = new KeywordsEncoder();
         encoder.wrap(input, 0);
