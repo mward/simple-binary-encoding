@@ -958,10 +958,8 @@ tasks.register('generateCSharpTestDtos', JavaExec) {
             'sbe.target.language': 'uk.co.real_logic.sbe.generation.csharp.CSharpDtos',
             'sbe.xinclude.aware': 'true',
             'sbe.validation.xsd': validationXsdPath,
-            'sbe.keyword.append.token': 'X',
             'sbe.types.package.override': 'true')
-    args = ['sbe-tool/src/test/resources/dto-test-schema.xml',
-            'sbe-samples/src/main/resources/example-extension-schema.xml']
+    args = ['sbe-samples/src/main/resources/example-extension-schema.xml']
 }
 
 tasks.register('generateCSharpExplicitPackageOverrideCodecs', JavaExec) {

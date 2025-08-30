@@ -174,9 +174,6 @@
         <field name="struct"        id="71" type="int64"/>
         <field name="Make"          id="72" type="int64"/>
         <field name="type"          id="73" type="uint8"/>
-        <field name="sealed"        id="74" type="uint8"/>
-        <field name="sbyte"         id="75" type="uint8"/>
-        <field name="using"         id="76" type="uint8"/>
         <group name="data"          id="90" dimensionType="groupSizeEncoding">
             <field name="this"      id="91" type="Ron"/>
             <group name="super"     id="92" dimensionType="groupSizeEncoding">
