@@ -290,12 +290,12 @@ public class CppGenerator implements CodeGenerator
 
     private static String accessOrderListenerMethodName(final Token token)
     {
-        return "on" + Generators.toUpperFirstChar(token.name()) + "Accessed";
+        return "on" + Generators.toUpperFirstChar(formatPropertyName(token.name())) + "Accessed";
     }
 
     private static String accessOrderListenerMethodName(final Token token, final String suffix)
     {
-        return "on" + Generators.toUpperFirstChar(token.name()) + suffix + "Accessed";
+        return "on" + Generators.toUpperFirstChar(formatPropertyName(token.name())) + suffix + "Accessed";
     }
 
     private static void generateAccessOrderListenerMethod(
@@ -1405,7 +1405,7 @@ public class CppGenerator implements CodeGenerator
     private void generateEnum(final List<Token> tokens) throws IOException
     {
         final Token enumToken = tokens.get(0);
-        final String enumName = formatClassName(tokens.get(0).applicableTypeName());
+        final String enumName = formatClassName(enumToken.applicableTypeName());
 
         try (Writer out = outputManager.createOutput(enumName))
         {
@@ -3879,11 +3879,12 @@ public class CppGenerator implements CodeGenerator
             atLeastOne[0] = true;
 
             final String characterEncoding = varData.get(i + 3).encoding().characterEncoding();
-            sb.append(indent).append("builder << R\"(\"").append(varDataToken.name()).append("\": )\";\n");
+            final String propertyName = formatPropertyName(varDataToken.name());
+            sb.append(indent).append("builder << R\"(\"").append(propertyName).append("\": )\";\n");
 
             if (null == characterEncoding)
             {
-                final String skipFunction = "writer.skip" + toUpperFirstChar(varDataToken.name()) + "()";
+                final String skipFunction = "writer.skip" + toUpperFirstChar(propertyName) + "()";
 
                 sb.append(indent).append("builder << '\"' <<\n").append(indent).append(INDENT).append(skipFunction)
                     .append(" << \" bytes of raw data\\\"\";\n");
@@ -3891,7 +3892,7 @@ public class CppGenerator implements CodeGenerator
             else
             {
                 final String getAsStringFunction =
-                    "writer.get" + toUpperFirstChar(varDataToken.name()) + "AsJsonEscapedString().c_str()";
+                    "writer.get" + toUpperFirstChar(propertyName) + "AsJsonEscapedString().c_str()";
 
                 sb.append(indent).append("builder << '\"' <<\n").append(indent).append(INDENT)
                     .append(getAsStringFunction).append(" << '\"';\n\n");
@@ -3925,7 +3926,8 @@ public class CppGenerator implements CodeGenerator
         }
 
         sb.append(indent).append("builder << R\"(\"").append(fieldTokenName).append("\": )\";\n");
-        final String fieldName = "writer." + formatPropertyName(fieldTokenName);
+        final String propertyName = formatPropertyName(fieldTokenName);
+        final String fieldName = "writer." + propertyName;
 
         switch (typeToken.signal())
         {
@@ -3935,7 +3937,7 @@ public class CppGenerator implements CodeGenerator
                     if (typeToken.encoding().primitiveType() == PrimitiveType.CHAR)
                     {
                         final String getAsStringFunction =
-                            "writer.get" + toUpperFirstChar(fieldTokenName) + "AsJsonEscapedString().c_str()";
+                            "writer.get" + toUpperFirstChar(propertyName) + "AsJsonEscapedString().c_str()";
 
                         sb.append(indent).append("builder << '\"' <<\n").append(indent).append(INDENT)
                             .append(getAsStringFunction).append(" << '\"';\n");

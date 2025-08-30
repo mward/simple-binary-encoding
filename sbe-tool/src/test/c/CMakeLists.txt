@@ -49,6 +49,7 @@ add_custom_command(
         ${Java_JAVA_EXECUTABLE} --add-opens java.base/jdk.internal.misc=ALL-UNNAMED
             -Dsbe.output.dir=${C_CODEC_TARGET_DIR}
             -Dsbe.target.language="C"
+            -Dsbe.keyword.append.token="X"
             -jar ${SBE_JAR}
             ${CODE_GENERATION_SCHEMA}
             ${CODE_GENERATION_SCHEMA_WITH_VERSION}
