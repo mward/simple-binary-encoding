@@ -32,7 +32,7 @@ import static uk.co.real_logic.sbe.xml.XmlSchemaParser.parse;
 
 class EncodedIrTest
 {
-    private static final int CAPACITY = 1024 * 16;
+    private static final int CAPACITY = 1024 * 32;
 
     @Test
     void shouldEncodeIr() throws Exception
