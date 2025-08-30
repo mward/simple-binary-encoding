@@ -295,7 +295,7 @@ public class ValidationUtil
         "case", "defer", "go", "map", "struct",
         "chan", "else", "goto", "package", "switch",
         "const", "fallthrough", "if", "range", "type",
-        "continue", "for", "import", "return", "var",
+        "continue", "for", "import", "return", "var", "_",
 
         /* https://golang.org/ref/spec#Predeclared_identifiers */
         /* types */
@@ -308,7 +308,7 @@ public class ValidationUtil
         "nil",
         /* functions */
         "append", "cap", "close", "complex", "copy", "delete", "imag", "len",
-        "make", "new", "panic", "print", "println", "real", "recover");
+        "make", "new", "panic", "print", "println", "real", "recover", "String");
 
     /**
      * "Check" value for validity of usage as a golang identifier. From:

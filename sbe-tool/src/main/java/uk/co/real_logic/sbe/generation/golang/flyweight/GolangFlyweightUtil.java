@@ -16,8 +16,7 @@
 package uk.co.real_logic.sbe.generation.golang.flyweight;
 
 import uk.co.real_logic.sbe.PrimitiveType;
-import uk.co.real_logic.sbe.SbeTool;
-import uk.co.real_logic.sbe.ValidationUtil;
+import uk.co.real_logic.sbe.generation.golang.struct.GolangUtil;
 
 import java.nio.ByteOrder;
 import java.util.EnumMap;
@@ -105,23 +104,7 @@ public class GolangFlyweightUtil
      */
     public static String formatPropertyName(final String value)
     {
-        String formattedValue = toUpperFirstChar(value);
-
-        if (ValidationUtil.isGolangKeyword(formattedValue))
-        {
-            final String keywordAppendToken = System.getProperty(SbeTool.KEYWORD_APPEND_TOKEN);
-            if (null == keywordAppendToken)
-            {
-                throw new IllegalStateException(
-                    "Invalid property name='" + formattedValue +
-                    "' please correct the schema or consider setting system property: " +
-                    SbeTool.KEYWORD_APPEND_TOKEN);
-            }
-
-            formattedValue += keywordAppendToken;
-        }
-
-        return formattedValue;
+        return GolangUtil.formatPropertyName(value);
     }
 
     /**

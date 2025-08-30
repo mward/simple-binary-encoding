@@ -1411,7 +1411,7 @@ public class GolangGenerator implements CodeGenerator
                 throw new IllegalStateException("tokens must begin with BEGIN_VAR_DATA: token=" + token);
             }
 
-            final String propertyName = toUpperFirstChar(token.name());
+            final String propertyName = formatPropertyName(token.name());
             final Token lengthToken = Generators.findFirst("length", tokens, i);
             final int lengthOfLengthField = lengthToken.encodedLength();
             final Token varDataToken = Generators.findFirst("varData", tokens, i);
