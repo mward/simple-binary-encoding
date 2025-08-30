@@ -1005,8 +1005,7 @@ public class CppDtoGenerator implements CodeGenerator
             return;
         }
 
-        final String propertyName = fieldToken.name();
-        final String formattedPropertyName = formatPropertyName(propertyName);
+        final String formattedPropertyName = formatPropertyName(fieldToken.name());
 
         if (typeToken.encoding().primitiveType() == PrimitiveType.CHAR)
         {
@@ -1014,13 +1013,13 @@ public class CppDtoGenerator implements CodeGenerator
             final String value = fieldToken.isOptionalEncoding() ?
                 accessor + ".value_or(" + "\"\"" + ")" :
                 accessor;
-            sb.append(indent).append("codec.put").append(toUpperFirstChar(propertyName)).append("(")
+            sb.append(indent).append("codec.put").append(toUpperFirstChar(formattedPropertyName)).append("(")
                 .append(value).append(".c_str());\n");
         }
         else
         {
             final String typeName = cppTypeName(typeToken.encoding().primitiveType());
-            final String vectorVar = toLowerFirstChar(propertyName) + "Vector";
+            final String vectorVar = toLowerFirstChar(formattedPropertyName) + "Vector";
 
             final String accessor = "dto." + formattedPropertyName + "()";
             final String value = fieldToken.isOptionalEncoding() ?
@@ -1034,7 +1033,7 @@ public class CppDtoGenerator implements CodeGenerator
                 .append(typeToken.arrayLength()).append(")\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append("throw std::invalid_argument(\"")
-                .append(propertyName)
+                .append(formattedPropertyName)
                 .append(": array length != ")
                 .append(typeToken.arrayLength())
                 .append("\");\n")
@@ -1083,8 +1082,7 @@ public class CppDtoGenerator implements CodeGenerator
             return;
         }
 
-        final String propertyName = fieldToken.name();
-        final String formattedPropertyName = formatPropertyName(propertyName);
+        final String formattedPropertyName = formatPropertyName(fieldToken.name());
 
         sb.append(indent).append("codec.").append(formattedPropertyName).append("(dto.")
             .append(formattedPropertyName).append("());\n");
@@ -1096,8 +1094,7 @@ public class CppDtoGenerator implements CodeGenerator
         final Token typeToken,
         final String indent)
     {
-        final String propertyName = fieldToken.name();
-        final String formattedPropertyName = formatPropertyName(propertyName);
+        final String formattedPropertyName = formatPropertyName(fieldToken.name());
         final String typeName = formatDtoClassName(typeToken.applicableTypeName());
 
         sb.append(indent).append(typeName).append("::encodeWith(codec.")
@@ -1225,7 +1222,7 @@ public class CppDtoGenerator implements CodeGenerator
             if (signalToken.signal() == Signal.BEGIN_FIELD)
             {
                 final Token encodingToken = tokens.get(i + 1);
-                final String propertyName = signalToken.name();
+                final String propertyName = formatPropertyName(signalToken.name());
 
                 switch (encodingToken.signal())
                 {
@@ -1258,7 +1255,6 @@ public class CppDtoGenerator implements CodeGenerator
         final String indent)
     {
         final String typeName = formatDtoClassName(typeToken.applicableTypeName());
-        final String formattedPropertyName = formatPropertyName(propertyName);
         final String fieldName = "m_" + toLowerFirstChar(propertyName);
 
         classBuilder.appendField()
@@ -1267,7 +1263,7 @@ public class CppDtoGenerator implements CodeGenerator
         classBuilder.appendPublic().append("\n")
             .append(generateDocumentation(indent, fieldToken))
             .append(indent).append("[[nodiscard]] const ").append(typeName).append("& ")
-            .append(formattedPropertyName).append("() const\n")
+            .append(propertyName).append("() const\n")
             .append(indent).append("{\n")
             .append(indent).append(INDENT).append("return ").append(fieldName).append(";\n")
             .append(indent).append("}\n");
@@ -1275,7 +1271,7 @@ public class CppDtoGenerator implements CodeGenerator
         classBuilder.appendPublic().append("\n")
             .append(generateDocumentation(indent, fieldToken))
             .append(indent).append("[[nodiscard]] ").append(typeName).append("& ")
-            .append(formattedPropertyName).append("()\n")
+            .append(propertyName).append("()\n")
             .append(indent).append("{\n")
             .append(indent).append(INDENT).append("return ").append(fieldName).append(";\n")
             .append(indent).append("}\n");
@@ -1290,8 +1286,6 @@ public class CppDtoGenerator implements CodeGenerator
     {
         final String enumName = formatClassName(typeToken.applicableTypeName()) + "::Value";
 
-        final String formattedPropertyName = formatPropertyName(propertyName);
-
         if (fieldToken.isConstantEncoding())
         {
             final String constValue = fieldToken.encoding().constValue().toString();
@@ -1300,7 +1294,7 @@ public class CppDtoGenerator implements CodeGenerator
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
                 .append(indent).append("[[nodiscard]] static ").append(enumName).append(" ")
-                .append(formattedPropertyName).append("()\n")
+                .append(propertyName).append("()\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append("return ").append(enumName).append("::")
                 .append(caseName).append(";\n")
@@ -1316,14 +1310,14 @@ public class CppDtoGenerator implements CodeGenerator
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
                 .append(indent).append("[[nodiscard]] ").append(enumName).append(" ")
-                .append(formattedPropertyName).append("() const\n")
+                .append(propertyName).append("() const\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append("return ").append(fieldName).append(";\n")
                 .append(indent).append("}\n");
 
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
-                .append(indent).append("void ").append(formattedPropertyName)
+                .append(indent).append("void ").append(propertyName)
                 .append("(").append(enumName).append(" value)\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append(fieldName).append(" = value;\n")
@@ -1378,7 +1372,6 @@ public class CppDtoGenerator implements CodeGenerator
         final String indent)
     {
         final String fieldName = "m_" + toLowerFirstChar(propertyName);
-        final String formattedPropertyName = formatPropertyName(propertyName);
         final String validateMethod = "validate" + toUpperFirstChar(propertyName);
 
         if (typeToken.encoding().primitiveType() == PrimitiveType.CHAR)
@@ -1394,14 +1387,14 @@ public class CppDtoGenerator implements CodeGenerator
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
                 .append(indent).append("[[nodiscard]] const ").append(typeName).append("& ")
-                .append(formattedPropertyName).append("() const\n")
+                .append(propertyName).append("() const\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append("return ").append(fieldName).append(";\n")
                 .append(indent).append("}\n");
 
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
-                .append(indent).append("void ").append(formattedPropertyName)
+                .append(indent).append("void ").append(propertyName)
                 .append("(const ").append(typeName).append("& borrowedValue)\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append(fieldName).append(" = borrowedValue;\n")
@@ -1409,7 +1402,7 @@ public class CppDtoGenerator implements CodeGenerator
 
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
-                .append(indent).append("void ").append(formattedPropertyName).append("(")
+                .append(indent).append("void ").append(propertyName).append("(")
                 .append(typeName).append("&& ownedValue)\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append(fieldName).append(" = std::move(ownedValue);\n")
@@ -1423,7 +1416,7 @@ public class CppDtoGenerator implements CodeGenerator
                 validateMethod,
                 typeName,
                 "std::string",
-                formattedPropertyName);
+                propertyName);
         }
         else
         {
@@ -1440,14 +1433,14 @@ public class CppDtoGenerator implements CodeGenerator
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
                 .append(indent).append("[[nodiscard]] ").append(typeName).append(" ")
-                .append(formattedPropertyName).append("() const\n")
+                .append(propertyName).append("() const\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append("return ").append(fieldName).append(";\n")
                 .append(indent).append("}\n");
 
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
-                .append(indent).append("void ").append(formattedPropertyName).append("(")
+                .append(indent).append("void ").append(propertyName).append("(")
                 .append(typeName).append("& borrowedValue").append(")\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append(validateMethod).append("(borrowedValue);\n")
@@ -1456,7 +1449,7 @@ public class CppDtoGenerator implements CodeGenerator
 
             classBuilder.appendPublic().append("\n")
                 .append(generateDocumentation(indent, fieldToken))
-                .append(indent).append("void ").append(formattedPropertyName).append("(")
+                .append(indent).append("void ").append(propertyName).append("(")
                 .append(typeName).append("&& ownedValue").append(")\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append(validateMethod).append("(ownedValue);\n")
@@ -1471,7 +1464,7 @@ public class CppDtoGenerator implements CodeGenerator
                 validateMethod,
                 typeName,
                 vectorTypeName,
-                formattedPropertyName);
+                propertyName);
         }
     }
 
@@ -1538,7 +1531,6 @@ public class CppDtoGenerator implements CodeGenerator
             fieldToken,
             elementTypeName
         );
-        final String formattedPropertyName = formatPropertyName(propertyName);
         final String fieldName = "m_" + toLowerFirstChar(propertyName);
         final String validateMethod = "validate" + toUpperFirstChar(propertyName);
 
@@ -1548,14 +1540,14 @@ public class CppDtoGenerator implements CodeGenerator
         classBuilder.appendPublic().append("\n")
             .append(generateDocumentation(indent, fieldToken))
             .append(indent).append("[[nodiscard]] ").append(typeName).append(" ")
-            .append(formattedPropertyName).append("() const\n")
+            .append(propertyName).append("() const\n")
             .append(indent).append("{\n")
             .append(indent).append(INDENT).append("return ").append(fieldName).append(";\n")
             .append(indent).append("}\n");
 
         classBuilder.appendPublic().append("\n")
             .append(generateDocumentation(indent, fieldToken))
-            .append(indent).append("void ").append(formattedPropertyName).append("(")
+            .append(indent).append("void ").append(propertyName).append("(")
             .append(typeName).append(" value)\n")
             .append(indent).append("{\n")
             .append(indent).append(INDENT).append(validateMethod).append("(value);\n")
@@ -1570,7 +1562,6 @@ public class CppDtoGenerator implements CodeGenerator
             indent,
             validateMethod,
             typeName,
-            formattedPropertyName,
             elementTypeName,
             encoding);
     }
@@ -1583,7 +1574,6 @@ public class CppDtoGenerator implements CodeGenerator
         final String indent,
         final String validateMethod,
         final CharSequence typeName,
-        final String formattedPropertyName,
         final String elementTypeName,
         final Encoding encoding)
     {
@@ -1613,7 +1603,7 @@ public class CppDtoGenerator implements CodeGenerator
 
             validateBuilder.append(indent).append(INDENT)
                 .append("if (value.value() == ").append(codecClassName).append("::")
-                .append(formattedPropertyName).append("NullValue())\n")
+                .append(propertyName).append("NullValue())\n")
                 .append(indent).append(INDENT)
                 .append("{\n")
                 .append(indent).append(INDENT).append(INDENT)
@@ -1636,7 +1626,7 @@ public class CppDtoGenerator implements CodeGenerator
         {
             validateBuilder.append(indent).append(INDENT)
                 .append("if (").append(value).append(" < ")
-                .append(codecClassName).append("::").append(formattedPropertyName).append("MinValue())\n")
+                .append(codecClassName).append("::").append(propertyName).append("MinValue())\n")
                 .append(indent).append(INDENT)
                 .append("{\n")
                 .append(indent).append(INDENT).append(INDENT)
@@ -1652,7 +1642,7 @@ public class CppDtoGenerator implements CodeGenerator
         {
             validateBuilder.append(indent).append(INDENT)
                 .append("if (").append(value).append(" > ")
-                .append(codecClassName).append("::").append(formattedPropertyName).append("MaxValue())\n")
+                .append(codecClassName).append("::").append(propertyName).append("MaxValue())\n")
                 .append(indent).append(INDENT)
                 .append("{\n")
                 .append(indent).append(INDENT).append(INDENT)
@@ -1693,7 +1683,7 @@ public class CppDtoGenerator implements CodeGenerator
                 .append(generateDocumentation(indent, fieldToken))
                 .append(indent).append("[[nodiscard]] static ")
                 .append(cppTypeName(typeToken.encoding().primitiveType()))
-                .append(" ").append(formatPropertyName(propertyName)).append("()\n")
+                .append(" ").append(propertyName).append("()\n")
                 .append(indent).append("{\n")
                 .append(indent).append(INDENT).append("return ").append(literalValue).append(";\n")
                 .append(indent).append("}\n");
