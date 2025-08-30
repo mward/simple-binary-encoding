@@ -92,6 +92,7 @@ public class DtoTest
         dto.falsE((byte)1);
         dto.import$("char nine");
         dto.void$(new int[] {1, 2, 3});
+        dto.continue$(dto_test.Model.B);
 
         final KeywordsDto.DataDto dto1 = new KeywordsDto.DataDto();
         dto1.this$((byte)90);

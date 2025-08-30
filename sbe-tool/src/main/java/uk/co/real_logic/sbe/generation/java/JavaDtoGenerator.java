@@ -985,7 +985,7 @@ public class JavaDtoGenerator implements CodeGenerator
                 break;
 
             case BEGIN_ENUM:
-                generateEnumEncodeWith(sb, fieldToken, indent);
+                generateEnumEncodeWith(sb, fieldToken, typeToken, indent);
                 break;
 
             case BEGIN_SET:
@@ -1081,6 +1081,7 @@ public class JavaDtoGenerator implements CodeGenerator
     private void generateEnumEncodeWith(
         final StringBuilder sb,
         final Token fieldToken,
+        final Token typeToken,
         final String indent)
     {
         if (fieldToken.isConstantEncoding())
@@ -1088,11 +1089,22 @@ public class JavaDtoGenerator implements CodeGenerator
             return;
         }
 
+        final String enumName = formatClassName(typeToken.applicableTypeName());
         final String propertyName = fieldToken.name();
         final String formattedPropertyName = formatPropertyName(propertyName);
 
-        sb.append(indent).append("encoder.").append(formattedPropertyName).append("(dto.")
-            .append(formattedPropertyName).append("());\n");
+        sb.append(indent).append(enumName).append(" ").append(formattedPropertyName).append(" = ")
+            .append("dto.").append(formattedPropertyName).append("();\n");
+        sb.append(indent).append("if (null != ").append(formattedPropertyName).append(")\n");
+        sb.append(indent).append("{\n");
+        sb.append(indent).append(indent).append("encoder.").append(formattedPropertyName)
+            .append("(").append(formattedPropertyName).append(");\n");
+        sb.append(indent).append("}\n");
+        sb.append(indent).append("else\n");
+        sb.append(indent).append("{\n");
+        sb.append(indent).append(indent).append("encoder.").append(formattedPropertyName)
+            .append("(").append(enumName).append(".NULL_VAL);\n");
+        sb.append(indent).append("}\n");
     }
 
     private void generateComplexPropertyEncodeWith(
