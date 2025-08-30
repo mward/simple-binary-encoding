@@ -534,7 +534,7 @@ public class CSharpGenerator implements CodeGenerator
             if (token.signal() == Signal.BEGIN_VAR_DATA)
             {
                 generateFieldIdMethod(sb, token, indent);
-                generateSinceActingDeprecated(sb, indent, CSharpUtil.formatPropertyName(token.name()), token);
+                generateSinceActingDeprecated(sb, indent, formatPropertyName(token.name()), token);
                 generateOffsetMethod(sb, token, indent);
 
                 final Token varDataToken = Generators.findFirst("varData", tokens, i);
@@ -1608,12 +1608,12 @@ public class CSharpGenerator implements CodeGenerator
 
     private static String accessOrderListenerMethodName(final Token token)
     {
-        return "On" + Generators.toUpperFirstChar(token.name()) + "Accessed";
+        return "On" + Generators.toUpperFirstChar(formatPropertyName(token.name())) + "Accessed";
     }
 
     private static String accessOrderListenerMethodName(final Token token, final String suffix)
     {
-        return "On" + Generators.toUpperFirstChar(token.name()) + suffix + "Accessed";
+        return "On" + Generators.toUpperFirstChar(formatPropertyName(token.name())) + suffix + "Accessed";
     }
 
     private static void generateAccessOrderListenerMethod(
@@ -1956,7 +1956,7 @@ public class CSharpGenerator implements CodeGenerator
 
                 generateFieldIdMethod(sb, signalToken, indent + INDENT);
                 generateSinceActingDeprecated(
-                    sb, indent + INDENT, CSharpUtil.formatPropertyName(signalToken.name()), signalToken);
+                    sb, indent + INDENT, formatPropertyName(signalToken.name()), signalToken);
                 generateOffsetMethod(sb, signalToken, indent + INDENT);
                 generateFieldMetaAttributeMethod(sb, signalToken, indent + INDENT);
 
@@ -1997,7 +1997,7 @@ public class CSharpGenerator implements CodeGenerator
     {
         sb.append(String.format("\n" +
             indent + "public const int %sId = %d;\n",
-            CSharpUtil.formatPropertyName(token.name()),
+            formatPropertyName(token.name()),
             token.id()));
     }
 
@@ -2005,7 +2005,7 @@ public class CSharpGenerator implements CodeGenerator
     {
         sb.append(String.format("\n" +
             indent + "public const int %sOffset = %d;\n",
-            CSharpUtil.formatPropertyName(token.name()),
+            formatPropertyName(token.name()),
             token.offset()));
     }
 
