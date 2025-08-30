@@ -180,6 +180,8 @@
                 <field name="mph"   id="93" type="uint16"/>
                 <field name="try"   id="94" type="float"/>
                 <field name="defer" id="95" type="float"/>
+                <field name="new"   id="96" type="CharArray9"/>
+                <data name="import" id="97" type="varAsciiStringEncoding"/>
             </group>
         </group>
         <data name="go"             id="100" type="varStringEncoding"/>
