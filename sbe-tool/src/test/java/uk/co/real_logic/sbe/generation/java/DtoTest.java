@@ -18,6 +18,8 @@ package uk.co.real_logic.sbe.generation.java;
 
 import dto_test.KeywordsDto;
 import dto_test.KeywordsEncoder;
+import dto_test.MessageHeaderDecoder;
+import dto_test.MessageHeaderEncoder;
 import extension.BooleanType;
 import extension.BoostType;
 import extension.CarDecoder;
@@ -27,6 +29,8 @@ import extension.Model;
 import org.agrona.ExpandableArrayBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -76,6 +80,10 @@ public class DtoTest
     @Test
     void dtoWithKeywords()
     {
+        final ExpandableArrayBuffer input = new ExpandableArrayBuffer();
+        final KeywordsEncoder encoder = new KeywordsEncoder();
+        encoder.wrapAndApplyHeader(input, 0, new MessageHeaderEncoder());
+
         final KeywordsDto dto = new KeywordsDto();
         dto.assert$((byte)42);
         dto.final$((byte)7);
@@ -84,20 +92,34 @@ public class DtoTest
         dto.falsE((byte)1);
         dto.import$("char nine");
         dto.void$(new int[] {1, 2, 3});
-        final ExpandableArrayBuffer input = new ExpandableArrayBuffer();
-        final KeywordsEncoder encoder = new KeywordsEncoder();
-        encoder.wrap(input, 0);
+
+        final KeywordsDto.DataDto dto1 = new KeywordsDto.DataDto();
+        dto1.this$((byte)90);
+        final KeywordsDto.DataDto.SuperDto superDto = new KeywordsDto.DataDto.SuperDto();
+        superDto.try$(0.5f);
+        dto1.super$(List.of(superDto));
+        final KeywordsDto.DataDto dto2 = new KeywordsDto.DataDto();
+        dto2.this$((byte)100);
+        dto.data(List.of(dto1, dto2));
 
         KeywordsDto.encodeWith(encoder, dto);
 
         final byte[] originalBytes = new byte[encoder.encodedLength()];
         input.getBytes(0, originalBytes);
 
-        final KeywordsDto otherDto =
-            KeywordsDto.decodeFrom(input, 0, KeywordsEncoder.SCHEMA_VERSION, KeywordsEncoder.BLOCK_LENGTH);
-        KeywordsDto.encodeWith(encoder, otherDto);
+        final MessageHeaderDecoder messageHeaderDecoder = new MessageHeaderDecoder();
+        messageHeaderDecoder.wrap(input, 0);
 
-        final byte[] otherBytes = new byte[encoder.encodedLength()];
+        final KeywordsDto otherDto = KeywordsDto.decodeFrom(
+            input,
+            MessageHeaderDecoder.ENCODED_LENGTH,
+            messageHeaderDecoder.blockLength(),
+            messageHeaderDecoder.version());
+        final KeywordsEncoder encoder2 = new KeywordsEncoder();
+        encoder2.wrapAndApplyHeader(input, 0, new MessageHeaderEncoder());
+        KeywordsDto.encodeWith(encoder2, otherDto);
+
+        final byte[] otherBytes = new byte[encoder2.encodedLength()];
         input.getBytes(0, otherBytes);
 
         assertArrayEquals(originalBytes, otherBytes);

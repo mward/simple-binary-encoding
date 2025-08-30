@@ -33,7 +33,7 @@
         <type name="Percentage" primitiveType="int8" minValue="0" maxValue="100"/>
         <type name="TwoBytes" primitiveType="int8" length="2" sinceVersion="2"/>
         <type name="CharArray9" primitiveType="char" length="9" />
-        <type name="intArray" primitiveType="int32" length="5" />
+        <type name="intArray" primitiveType="int32" length="5" sinceVersion="3"/>
         <composite name="Booster">
             <enum name="BoostType" encodingType="char">
                 <validValue name="TURBO">T</validValue>
@@ -70,6 +70,10 @@
         <composite name="BytePair" sinceVersion="6">
             <type name="one" primitiveType="int8" presence="optional"/>
             <type name="two" primitiveType="int8"/>
+        </composite>
+        <composite name="ArrayPair" sinceVersion="4">
+            <ref name="char" type="CharArray9"/>
+            <ref name="false" type="intArray"/>
         </composite>
     </types>
 
@@ -161,10 +165,16 @@
         <field name="void"         id="48" type="intArray"/>
         <field name="volatile"     id="49" type="int8"/>
         <field name="while"        id="50" type="int8"/>
-        <field name="null"         id="51" type="int8"/>
-        <field name="true"         id="52" type="int8"/>
+        <field name="true"         id="52" type="ArrayPair"/>
         <field name="false"        id="53" type="int8"/>
         <field name="_"            id="54" type="int8"/>
         <field name="falsE"        id="55" type="int8"/>
+        <group name="data"         id="56" dimensionType="groupSizeEncoding">
+            <field name="this"     id="57" type="Ron"/>
+            <group name="super"    id="58" dimensionType="groupSizeEncoding">
+                <field name="mph"  id="59" type="uint16"/>
+                <field name="try"  id="60" type="float"/>
+            </group>
+        </group>
     </sbe:message>
 </sbe:messageSchema>
