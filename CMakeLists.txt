@@ -100,6 +100,11 @@ find_package(Threads)
 if (UNIX)
     add_compile_options(-Wall -Wpedantic -Wextra -Wno-unused-parameter)
 
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "21.0")
+        # See gtest: https://github.com/google/googletest/issues/4762
+        add_compile_options(-Wno-error=character-conversion)
+    endif ()
+
     if (C_WARNINGS_AS_ERRORS)
         add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror>)
     endif (C_WARNINGS_AS_ERRORS)
