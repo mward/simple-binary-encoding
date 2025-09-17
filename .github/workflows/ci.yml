@@ -85,7 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dotnet: [ '8', '9', '10', '11', '12', '13' ]
+        dotnet: [ '8', '9', '10' ]
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
