@@ -16,16 +16,15 @@
 
 function(sbe_test name)
     add_executable("C${name}" "${name}.cpp")
+    add_dependencies(C${name} gmock)
     target_include_directories("C${name}"
-        PRIVATE ${GTEST_SOURCE_DIR}/googletest/include
-        PRIVATE ${C_CODEC_TARGET_DIR}
+            PRIVATE ${C_CODEC_TARGET_DIR}
     )
     target_compile_options("C${name}" PRIVATE $<$<CXX_COMPILER_ID:AppleClang>:-Werror>)
     target_compile_options("C${name}" PRIVATE $<$<CXX_COMPILER_ID:Clang>:-Werror>)
     target_compile_options("C${name}" PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Werror -Wno-maybe-uninitialized>)
-    target_link_libraries("C${name}" ${GTEST_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries("C${name}" gmock_main ${CMAKE_THREAD_LIBS_INIT})
     add_test(NAME C${name} COMMAND C${name} WORKING_DIRECTORY ${C_CODEC_TARGET_DIR})
-    add_dependencies(C${name} gtest)
     if (${ARGC} GREATER 1)
         add_dependencies(C${name} ${ARGV1})
     endif ()
