@@ -34,7 +34,7 @@ jobs:
     strategy:
       matrix:
         java: [ '25' ]
-        dotnet: [ '8.0.x' ]
+        dotnet: [ '10' ]
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
