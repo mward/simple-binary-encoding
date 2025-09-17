@@ -33,7 +33,7 @@ jobs:
     timeout-minutes: 120
     strategy:
       matrix:
-        java: [ '21' ]
+        java: [ '25' ]
         dotnet: [ '8.0.x' ]
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
