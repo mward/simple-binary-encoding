@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-cmake_minimum_required(VERSION 3.6.1 FATAL_ERROR)
-cmake_policy(VERSION 3.6.1)
+cmake_minimum_required(VERSION 3.30 FATAL_ERROR)
+cmake_policy(VERSION 3.30)
 
 file(STRINGS version.txt SBE_VERSION_TXT LIMIT_COUNT 1 REGEX "^[0-9]+(\\.[0-9]+)+")
 string(REGEX REPLACE "^([0-9]+(\\.[0-9]+)+).*$" "\\1" SBE_VERSION_NUMERIC "${SBE_VERSION_TXT}")
