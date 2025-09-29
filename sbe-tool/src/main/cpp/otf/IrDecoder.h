@@ -289,6 +289,9 @@ private:
         tmpLen = tokenCodec.getReferencedName(tmpBuffer, sizeof(tmpBuffer));
         std::string referencedName(tmpBuffer, tmpLen);
 
+        tmpLen = tokenCodec.getPackageName(tmpBuffer, sizeof(tmpBuffer));
+        std::string packageName(tmpBuffer, tmpLen);
+
         Encoding encoding(
             type,
             presence,
@@ -302,7 +305,7 @@ private:
             timeUnit,
             semanticType);
 
-        Token token(tokenOffset, id, version, tokenSize, componentTokenCount, signal, name, description, encoding);
+        Token token(tokenOffset, id, version, tokenSize, componentTokenCount, signal, name, description, encoding, referencedName, packageName);
 
         tokens->push_back(token);
 
