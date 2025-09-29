@@ -1,5 +1,26 @@
 = Changelog
 
+== https://github.com/aeron-io/simple-binary-encoding/releases/tag/1.36.0[1.36.0] - 2025-09-29
+
+* **[C{plus}{plus}]** Fix composite encode generation to use formatted property names, i.e. escape keywords.
+* **[C{plus}{plus}]** Fix property name usage in display code generator.
+* **[C{plus}{plus}]** Add getter for schema id on the `IrDecoder` (https://github.com/aeron-io/simple-binary-encoding/pull/1077[#1077])
+* **[Java]** Fix var data and composite code generation to use property name instead of plain name. Also use property name for access order check methods. (https://github.com/aeron-io/simple-binary-encoding/issues/1081[#1081])
+* **[Java]** Handle `null` values when encoding enums, i.e. use `Enum.NULL_VAL` if the value was not assigned.
+* **[Java]** Handle primitive arrays correctly in the generated DTO code.
+* **[Go]** Handle `_` and `String` as keywords and use property name when generating variable data section.
+* **[C#]** Replaced empty array creation by `Array.Empty`, issue (https://github.com/aeron-io/simple-binary-encoding/issues/1079[#1079]). (https://github.com/aeron-io/simple-binary-encoding/pull/1080[#1080])
+* **[Java]** Upgrade to https://github.com/aeron-io/agrona/releases/tag/2.3.0[Agrona 2.3.0].
+* **[Java]** Upgrade to `JUnit` 5.13.4.
+* **[Java]** Upgrade to `Mockito` 5.20.0.
+* **[Java]** Upgrade to `Checkstyle` 11.1.0.
+* **[Java]** Upgrade to `Shadow` 9.2.2.
+* **[Java]** Upgrade to `Version` 0.53.0.
+* **[C]** Upgrade to `GoogleTest` to 1.14.0.
+* **[C]** Bump minimium required CMake version to `3.30`.
+* **[CI]** Add `Clang` 21 to the build matrix.
+* **[CI]** Add `Java` 25 to the build matrix.
+
 == https://github.com/aeron-io/simple-binary-encoding/releases/tag/1.35.6[1.35.6] - 2025-06-27
 
 * **[Java]** Upgrade to https://github.com/aeron-io/agrona/releases/tag/2.2.4[Agrona 2.2.4].
