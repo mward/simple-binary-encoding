@@ -137,8 +137,16 @@ file(GLOB_RECURSE SBE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/sbe-tool/src/main/java/*.java"
 )
 
+if (NOT DEFINED GRADLE_WRAPPER)
+    if (MSVC)
+        set(GRADLE_WRAPPER "gradlew.bat" CACHE INTERNAL "Location of the Gradle wrapper script")
+    else ()
+        set(GRADLE_WRAPPER "./gradlew" CACHE INTERNAL "Location of the Gradle wrapper script")
+    endif ()
+endif ()
+
 add_custom_command(OUTPUT ${SBE_JAR}
-    COMMAND ./gradlew assemble -x javadoc --console=plain
+    COMMAND ${GRADLE_WRAPPER} assemble -x javadoc --console=plain
     DEPENDS ${SBE_SOURCES}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Generating SBE jar"
