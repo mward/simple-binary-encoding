@@ -10,6 +10,8 @@
 * **[Java]** Handle primitive arrays correctly in the generated DTO code.
 * **[Go]** Handle `_` and `String` as keywords and use property name when generating variable data section.
 * **[C#]** Replaced empty array creation by `Array.Empty`, issue (https://github.com/aeron-io/simple-binary-encoding/issues/1079[#1079]). (https://github.com/aeron-io/simple-binary-encoding/pull/1080[#1080])
+* **[C/C{plus}{plus}]** Allow overriding Gradle wrapper location. (https://github.com/aeron-io/simple-binary-encoding/issues/1091[#1091]).
+* **[Java/C{plus}{plus}/Go]** Preserve `packageName` in the IR. (https://github.com/aeron-io/simple-binary-encoding/issues/1089[#1089])
 * **[Java]** Upgrade to https://github.com/aeron-io/agrona/releases/tag/2.3.0[Agrona 2.3.0].
 * **[Java]** Upgrade to `JUnit` 5.13.4.
 * **[Java]** Upgrade to `Mockito` 5.20.0.
