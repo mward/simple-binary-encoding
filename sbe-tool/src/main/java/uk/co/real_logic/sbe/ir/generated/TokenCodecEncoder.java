@@ -59,6 +59,8 @@ public final class TokenCodecEncoder
      *       V0_SEMANTICTYPE_DONE -> V0_DESCRIPTION_DONE [label="  description(?)  "];
      *       V0_DESCRIPTION_DONE -> V0_DESCRIPTION_DONE [label="  referencedNameLength()  "];
      *       V0_DESCRIPTION_DONE -> V0_REFERENCEDNAME_DONE [label="  referencedName(?)  "];
+     *       V0_REFERENCEDNAME_DONE -> V0_REFERENCEDNAME_DONE [label="  packageNameLength()  "];
+     *       V0_REFERENCEDNAME_DONE -> V0_PACKAGENAME_DONE [label="  packageName(?)  "];
      *   }
      * }</pre>
      */
@@ -77,6 +79,7 @@ public final class TokenCodecEncoder
         private static final int V0_SEMANTICTYPE_DONE = 10;
         private static final int V0_DESCRIPTION_DONE = 11;
         private static final int V0_REFERENCEDNAME_DONE = 12;
+        private static final int V0_PACKAGENAME_DONE = 13;
 
         private static final String[] STATE_NAME_LOOKUP =
         {
@@ -93,6 +96,7 @@ public final class TokenCodecEncoder
             "V0_SEMANTICTYPE_DONE",
             "V0_DESCRIPTION_DONE",
             "V0_REFERENCEDNAME_DONE",
+            "V0_PACKAGENAME_DONE",
         };
 
         private static final String[] STATE_TRANSITIONS_LOOKUP =
@@ -109,6 +113,7 @@ public final class TokenCodecEncoder
             "\"semanticTypeLength()\", \"semanticType(?)\"",
             "\"descriptionLength()\", \"description(?)\"",
             "\"referencedNameLength()\", \"referencedName(?)\"",
+            "\"packageNameLength()\", \"packageName(?)\"",
             "",
         };
 
@@ -2009,6 +2014,112 @@ public final class TokenCodecEncoder
         return this;
     }
 
+    public static int packageNameId()
+    {
+        return 22;
+    }
+
+    public static String packageNameCharacterEncoding()
+    {
+        return java.nio.charset.StandardCharsets.UTF_8.name();
+    }
+
+    public static String packageNameMetaAttribute(final MetaAttribute metaAttribute)
+    {
+        if (MetaAttribute.PRESENCE == metaAttribute)
+        {
+            return "required";
+        }
+
+        return "";
+    }
+
+    public static int packageNameHeaderLength()
+    {
+        return 2;
+    }
+
+    private void onPackageNameAccessed()
+    {
+        switch (codecState())
+        {
+            case CodecStates.V0_REFERENCEDNAME_DONE:
+                codecState(CodecStates.V0_PACKAGENAME_DONE);
+                break;
+            default:
+                throw new IllegalStateException("Illegal field access order. " +
+                    "Cannot access field \"packageName\" in state: " + CodecStates.name(codecState()) +
+                    ". Expected one of these transitions: [" + CodecStates.transitions(codecState()) +
+                    "]. Please see the diagram in the Javadoc of the class TokenCodecEncoder#CodecStates.");
+        }
+    }
+
+    public TokenCodecEncoder putPackageName(final DirectBuffer src, final int srcOffset, final int length)
+    {
+        if (length > 65534)
+        {
+            throw new IllegalStateException("length > maxValue for type: " + length);
+        }
+
+        if (SBE_ENABLE_IR_PRECEDENCE_CHECKS)
+        {
+            onPackageNameAccessed();
+        }
+
+        final int headerLength = 2;
+        final int limit = parentMessage.limit();
+        parentMessage.limit(limit + headerLength + length);
+        buffer.putShort(limit, (short)length, BYTE_ORDER);
+        buffer.putBytes(limit + headerLength, src, srcOffset, length);
+
+        return this;
+    }
+
+    public TokenCodecEncoder putPackageName(final byte[] src, final int srcOffset, final int length)
+    {
+        if (length > 65534)
+        {
+            throw new IllegalStateException("length > maxValue for type: " + length);
+        }
+
+        if (SBE_ENABLE_IR_PRECEDENCE_CHECKS)
+        {
+            onPackageNameAccessed();
+        }
+
+        final int headerLength = 2;
+        final int limit = parentMessage.limit();
+        parentMessage.limit(limit + headerLength + length);
+        buffer.putShort(limit, (short)length, BYTE_ORDER);
+        buffer.putBytes(limit + headerLength, src, srcOffset, length);
+
+        return this;
+    }
+
+    public TokenCodecEncoder packageName(final String value)
+    {
+        final byte[] bytes = (null == value || value.isEmpty()) ? org.agrona.collections.ArrayUtil.EMPTY_BYTE_ARRAY : value.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+        final int length = bytes.length;
+        if (length > 65534)
+        {
+            throw new IllegalStateException("length > maxValue for type: " + length);
+        }
+
+        if (SBE_ENABLE_IR_PRECEDENCE_CHECKS)
+        {
+            onPackageNameAccessed();
+        }
+
+        final int headerLength = 2;
+        final int limit = parentMessage.limit();
+        parentMessage.limit(limit + headerLength + length);
+        buffer.putShort(limit, (short)length, BYTE_ORDER);
+        buffer.putBytes(limit + headerLength, bytes, 0, length);
+
+        return this;
+    }
+
     public String toString()
     {
         if (null == buffer)
@@ -2038,7 +2149,7 @@ public final class TokenCodecEncoder
         {
             switch (codecState)
             {
-                case CodecStates.V0_REFERENCEDNAME_DONE:
+                case CodecStates.V0_PACKAGENAME_DONE:
                     return;
                 default:
                     throw new IllegalStateException("Not fully encoded, current state: " +

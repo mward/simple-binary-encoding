@@ -266,6 +266,9 @@ public class IrDecoder implements AutoCloseable
         final String referencedName = tokenDecoder.referencedName();
         tokenBuilder.referencedName(referencedName.isEmpty() ? null : referencedName);
 
+        final String packageName = tokenDecoder.packageName();
+        tokenBuilder.packageName(packageName.isEmpty() ? null : packageName);
+
         offset += tokenDecoder.encodedLength();
 
         return tokenBuilder.encoding(encBuilder.build()).build();

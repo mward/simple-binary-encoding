@@ -319,7 +319,7 @@ class BasicXmlIrGenerationTest
             final MessageSchema schema = parse(in, ParserOptions.DEFAULT);
             final IrGenerator generator = new IrGenerator();
             final Ir firstIr = generator.generate(schema);
-            final ByteBuffer firstIrOutputBuffer = ByteBuffer.allocate(8 * 1024);
+            final ByteBuffer firstIrOutputBuffer = ByteBuffer.allocate(16 * 1024);
 
             final int length;
             try (IrEncoder firstIrEncoder = new IrEncoder(firstIrOutputBuffer, firstIr))

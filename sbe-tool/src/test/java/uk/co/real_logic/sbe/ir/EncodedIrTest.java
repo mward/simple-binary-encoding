@@ -166,7 +166,18 @@ class EncodedIrTest
     @Test
     void shouldDecodeMessagesAndTypes() throws Exception
     {
-        try (InputStream in = Tests.getLocalResource("code-generation-schema.xml"))
+        testDecodeTypes("code-generation-schema.xml");
+    }
+
+    @Test
+    void shouldPreservePackageNames() throws Exception
+    {
+        testDecodeTypes("explicit-package-test-schema.xml");
+    }
+
+    private void testDecodeTypes(final String name1) throws Exception
+    {
+        try (InputStream in = Tests.getLocalResource(name1))
         {
             final MessageSchema schema = parse(in, ParserOptions.DEFAULT);
             final IrGenerator irg = new IrGenerator();
@@ -216,6 +227,7 @@ class EncodedIrTest
     private void assertEqual(final Token lhs, final Token rhs)
     {
         assertThat(lhs.name(), is(rhs.name()));
+        assertThat(lhs.packageName(), is(rhs.packageName()));
         assertThat(lhs.version(), is(rhs.version()));
         assertThat(lhs.offset(), is(rhs.offset()));
         assertThat((long)lhs.id(), is((long)rhs.id()));
