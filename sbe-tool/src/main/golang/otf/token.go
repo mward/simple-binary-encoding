@@ -76,8 +76,13 @@ type Token struct {
 	signal              Signal
 	name                string
 	referencedName      string
+	packageName         string
 	description         string
 	encoding            Encoding
+}
+
+func (token Token) PackageName() string {
+	return token.packageName
 }
 
 func (token Token) ReferencedName() string {
@@ -149,9 +154,11 @@ func (token Token) IsOptionalEncoding() bool {
 
 func (token Token) String() string {
 	return fmt.Sprintf(
-		"Token{signal: %s, name: %s, description: %s, fieldId: %d, tokenVersion: %d, encoding: %s, encodedLength: %d, offset: %d, componentTokenCount: %d}",
+		"Token{signal: %s, name: %s, referencedName: %s, packageName: %s, description: %s, fieldId: %d, tokenVersion: %d, encoding: %s, encodedLength: %d, offset: %d, componentTokenCount: %d}",
 		token.signal,
 		token.name,
+		token.referencedName,
+		token.packageName,
 		token.description,
 		token.fieldId,
 		token.version,

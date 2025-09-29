@@ -164,6 +164,7 @@ func (decoder *IrDecoder) decodeAndAddToken(tokens *[]Token, offset uint64) uint
 	semanticType := tokenCodec.GetSemanticTypeAsString()
 	description := tokenCodec.GetDescriptionAsString()
 	referencedName := tokenCodec.GetReferencedNameAsString()
+	packageName := tokenCodec.GetPackageNameAsString()
 
 	encoding := NewEncoding(
 		primitiveType,
@@ -188,6 +189,7 @@ func (decoder *IrDecoder) decodeAndAddToken(tokens *[]Token, offset uint64) uint
 		signal:              signal,
 		name:                name,
 		referencedName:      referencedName,
+		packageName:         packageName,
 		description:         description,
 		encoding:            encoding,
 	}
