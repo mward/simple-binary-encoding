@@ -412,7 +412,7 @@ public class ValidationUtil
         "short", "sizeof", "stackalloc", "static", "string",
         "struct", "switch", "this", "throw", "true",
         "try", "typeof", "uint", "ulong", "unchecked",
-        "unsafe", "ushort", "using", "using static", "virtual",
+        "unsafe", "ushort", "using", "virtual",
         "void", "volatile", "while");
 
     /**
