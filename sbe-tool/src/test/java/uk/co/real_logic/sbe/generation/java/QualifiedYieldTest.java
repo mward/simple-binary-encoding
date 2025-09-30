@@ -20,8 +20,6 @@ import org.agrona.MutableDirectBuffer;
 import org.agrona.generation.CompilerUtil;
 import org.agrona.generation.StringWriterOutputManager;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 import uk.co.real_logic.sbe.Tests;
 import uk.co.real_logic.sbe.ir.Ir;
 import uk.co.real_logic.sbe.xml.IrGenerator;
@@ -44,7 +42,6 @@ public class QualifiedYieldTest
     private final StringWriterOutputManager outputManager = new StringWriterOutputManager();
 
     @Test
-    @EnabledForJreRange(min = JRE.JAVA_17)
     void shouldGenerateValidJava() throws Exception
     {
         try (InputStream in = Tests.getLocalResource("issue910.xml"))
